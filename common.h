@@ -5,6 +5,12 @@
 #include <cmath>
 #include <iostream>
 
+/*
+    I keep hand-calcuating the equations to calculate the motor's mod values.
+    I have finally decided to write code that does this for me.
+    Horrah.
+*/
+
 double linearFromTwoPoints(double pointOne[2], double pointTwo[2], double input)
 {
     double slope = (pointOne[1] - pointTwo[1]) / (pointOne[0] - pointTwo[0]);

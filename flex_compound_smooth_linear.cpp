@@ -2,12 +2,12 @@
 #include "common.h"
 
 /*
-    Methods that take inputs and relate them to motor outputs
-    Expects an X between -100 and 100, same for Y
-    The linear equation contains two points:
-    (0, 1) when in the center, don't change motor values
-
+    Methods that take inputs and relate them to motor outputs.
+    Calculates according to the angular position of the joystick.
+    If in X quadrant/sector, use X formula.
+    Can be as detailed as you want.
 */
+const double _speedMod = 1;
 
 double leftMotorMod(int joyX, int joyY)
 {
@@ -63,7 +63,7 @@ std::vector<int> motorSpeeds(int joyY, int joyX)
             value defined by the horizontal position of the joystick.
         Value 0 is the speed of the left motor, Value 1 is the speed of the right motor.
     */
-    int moveVector = sqrt(joyY*joyY + joyX*joyX);
+    int moveVector = sqrt(joyY*joyY + joyX*joyX) * _speedMod;
     std::vector<int> speeds {int(moveVector*leftMotorMod(joyX, joyY)), int(moveVector*rightMotorMod(joyX, joyY))};
     return speeds;
 }
@@ -74,14 +74,14 @@ int main(void)
     int amp=100;
     std::vector<int> yVals = genJoyY(iterator, amp);
     std::vector<int> xVals = genJoyX(iterator, amp);
-    std::cout << "y:x | lMotor:rMotor | joyAngle" << "\n";
+    std::cout << "y:x | lMotor:rMotor | joyAngle | lMotorMod:rMotorMod" << "\n";
     for (int i = 0; i < yVals.size(); i++)
     {
         std::vector<int> motors = motorSpeeds(yVals.at(i), xVals.at(i));
         std::cout << yVals.at(i) << ":" << xVals.at(i) << " | " 
         << motors.at(0) << ":" << motors.at(1) << " | " 
         << i*iterator <<  " | "
-        << leftMotorMod(xVals.at(i), yVals.at(i)) << " | " 
+        << leftMotorMod(xVals.at(i), yVals.at(i)) << ":" 
         << rightMotorMod(xVals.at(i), yVals.at(i)) << " | "
         <<"\n";
     }
