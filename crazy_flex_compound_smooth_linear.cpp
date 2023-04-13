@@ -77,6 +77,17 @@ std::vector<int> motorSpeeds(int joyY, int joyX)
     return speeds;
 }
 
+// What those methods would be for a *.ino file
+// The point-array and its size would be calculated in the loop() method and be input as parameters.
+int motorSpeed(int joyY, int joyX, double points[], int size)
+{
+    // Finds the distance of the joystick from center and multiplies it by the constant speed modifier.
+    int moveVector = sqrt(joyY*joyY + joyX*joyX) * _speedMod;
+
+    // Does the modifier thing for each motor and returns their values
+    return (int) (moveVector*motorMod(joyX, joyY, points, size));
+}
+
 int main(void)
 {
     int iterator = 15;
